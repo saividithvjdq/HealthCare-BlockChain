@@ -1,0 +1,98 @@
+{
+  "address": "0xD3aA556287Afe63102e5797BFDDd2A1E8DbB3eA5",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "aadhaarNumber",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fileHash",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "RecordAdded",
+      "type": "event",
+      "signature": "0x2fda3ce68e3316f21c26863e3b64c0bca4dfc4d6cb5777ef08d41c56482e2221"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_aadhaarNumber",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_fileHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_recordType",
+          "type": "string"
+        }
+      ],
+      "name": "addRecord",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x3f723c62"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_aadhaarNumber",
+          "type": "string"
+        }
+      ],
+      "name": "getRecords",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "fileHash",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "recordType",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "aadhaarNumber",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct HealthRecords.Record[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x86e80b71"
+    }
+  ]
+}
