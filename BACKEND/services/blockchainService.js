@@ -1,44 +1,56 @@
-const Web3 = require('web3');
-const contractConfig = require('../contracts/contract-config.json');
-require('dotenv').config();
+// Mock implementation for development
+const logger = require('../utils/logger');
 
-class BlockchainService {
+// In-memory store for development/testing
+const records = [];
+
+class MockBlockchainService {
     constructor() {
-        this.web3 = new Web3(process.env.BLOCKCHAIN_NETWORK);
-        this.account = this.web3.eth.accounts.privateKeyToAccount(process.env.CONTRACT_OWNER_PRIVATE_KEY);
-        this.web3.eth.accounts.wallet.add(this.account);
-        this.contract = new this.web3.eth.Contract(
-            contractConfig.abi,
-            contractConfig.address
-        );
+        logger.info('Initializing Mock Blockchain Service for development');
     }
 
-    async addRecord(aadhaarNumber, fileHash, recordType) {
+    async createBlockchainRecord(recordData) {
         try {
-            const tx = await this.contract.methods.addRecord(
-                aadhaarNumber,
-                fileHash,
-                recordType
-            ).send({
-                from: this.account.address,
-                gas: 2000000
-            });
-
-            return tx.transactionHash;
+            const record = {
+                id: `record_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+                timestamp: new Date(),
+                ...recordData
+            };
+            
+            records.push(record);
+            logger.info(`Mock blockchain record created: ${record.id}`);
+            
+            return record.id;
         } catch (error) {
-            console.error('Blockchain transaction error:', error);
-            throw new Error('Failed to add record to blockchain');
+            logger.error('Mock blockchain record creation error:', error);
+            throw new Error('Failed to create mock blockchain record');
         }
     }
 
-    async getRecords(aadhaarNumber) {
+    async getBlockchainRecords(aadhaarNumber) {
         try {
-            return await this.contract.methods.getRecords(aadhaarNumber).call();
+            // Filter records by aadhaarNumber if provided
+            const filteredRecords = aadhaarNumber 
+                ? records.filter(record => record.aadhaarNumber === aadhaarNumber)
+                : records;
+                
+            return filteredRecords;
         } catch (error) {
-            console.error('Blockchain read error:', error);
-            throw new Error('Failed to read records from blockchain');
+            logger.error('Mock blockchain read error:', error);
+            throw new Error('Failed to read mock blockchain records');
         }
     }
 }
 
-module.exports = new BlockchainService();
+// Export functions directly for easier usage
+const service = new MockBlockchainService();
+
+// Main function to create a blockchain record
+exports.createBlockchainRecord = async (recordData) => {
+    return service.createBlockchainRecord(recordData);
+};
+
+// Function to get blockchain records
+exports.getBlockchainRecords = async (aadhaarNumber) => {
+    return service.getBlockchainRecords(aadhaarNumber);
+};

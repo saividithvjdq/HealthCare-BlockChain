@@ -1,0 +1,57 @@
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T15:50:05.451Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T15:50:05.533Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T15:50:47.175Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T15:50:47.208Z"}
+{"level":"info","message":"\u001b[0mPOST /api/admin/create \u001b[32m200\u001b[0m 170.737 ms - 196\u001b[0m","timestamp":"2025-04-24T15:52:37.245Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/profile \u001b[32m200\u001b[0m 108.978 ms - 126\u001b[0m","timestamp":"2025-04-24T16:15:21.793Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/profile/update \u001b[33m404\u001b[0m 0.927 ms - 29\u001b[0m","timestamp":"2025-04-24T16:15:36.484Z"}
+{"level":"info","message":"\u001b[0mPUT /api/admin/profile/update \u001b[32m200\u001b[0m 45.190 ms - 118\u001b[0m","timestamp":"2025-04-24T16:16:19.241Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/register \u001b[32m200\u001b[0m 139.027 ms - 195\u001b[0m","timestamp":"2025-04-24T16:17:10.123Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m200\u001b[0m 99.031 ms - 195\u001b[0m","timestamp":"2025-04-24T16:18:17.133Z"}
+{"level":"info","message":"\u001b[0mGET /api/users/me \u001b[32m200\u001b[0m 5.807 ms - 138\u001b[0m","timestamp":"2025-04-24T16:19:14.080Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T16:22:09.748Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T16:22:09.843Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T16:22:19.353Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T16:22:19.416Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T19:39:51.916Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T19:39:51.971Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-24T19:40:04.702Z"}
+{"level":"info","message":"MongoDB Connected","timestamp":"2025-04-24T19:40:04.751Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-25T01:52:48.105Z"}
+{"level":"info","message":"MongoDB Connected Successfully","timestamp":"2025-04-25T01:52:48.156Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-25T02:01:35.766Z"}
+{"level":"info","message":"MongoDB Connected Successfully","timestamp":"2025-04-25T02:01:35.875Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/send-otp \u001b[32m200\u001b[0m 43.187 ms - 65\u001b[0m","timestamp":"2025-04-25T02:42:45.787Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 5.342 ms - 25\u001b[0m","timestamp":"2025-04-25T02:42:50.131Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 3.985 ms - 25\u001b[0m","timestamp":"2025-04-25T02:43:00.072Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 5.842 ms - 25\u001b[0m","timestamp":"2025-04-25T02:43:01.097Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 5.769 ms - 55\u001b[0m","timestamp":"2025-04-25T02:43:23.965Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.746 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:24.354Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.017 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:24.676Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.417 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:33.110Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.947 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:33.715Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.692 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.157Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.390 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.311Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.407 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.557Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 0.963 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.681Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 0.975 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.830Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.141 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:34.969Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 0.864 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.092Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.235 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.264Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.279 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.436Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 4.297 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.588Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 3.018 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.724Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.220 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:35.945Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.196 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:36.216Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 0.524 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:36.398Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.038 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:36.829Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 0.895 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:36.963Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 1.028 ms - 37\u001b[0m","timestamp":"2025-04-25T02:43:37.376Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/send-otp \u001b[32m200\u001b[0m 59.668 ms - 65\u001b[0m","timestamp":"2025-04-25T02:47:53.711Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[33m400\u001b[0m 5.131 ms - 25\u001b[0m","timestamp":"2025-04-25T02:48:10.355Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-25T02:49:57.690Z"}
+{"level":"info","message":"MongoDB Connected Successfully","timestamp":"2025-04-25T02:49:57.750Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/send-otp \u001b[32m200\u001b[0m 25.981 ms - 65\u001b[0m","timestamp":"2025-04-25T02:51:09.701Z"}
+{"level":"info","message":"\u001b[0mPOST /api/auth/verify-otp \u001b[32m200\u001b[0m 23.717 ms - 226\u001b[0m","timestamp":"2025-04-25T02:51:19.559Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-04-25T02:54:53.974Z"}
+{"level":"info","message":"MongoDB Connected Successfully","timestamp":"2025-04-25T02:54:54.127Z"}

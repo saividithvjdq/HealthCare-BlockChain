@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
 
 const healthRecordSchema = new mongoose.Schema({
-    patientAadhaar: {
-        type: String,
-        required: true,
-        ref: 'Patient'
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    recordType: {
+    title: {
         type: String,
         required: true
     },
-    fileUrl: {
+    filePath: {
         type: String,
         required: true
     },
-    fileName: String,
+    fileType: {
+        type: String,
+        required: true
+    },
+    fileSize: {
+        type: Number,
+        required: true
+    },
     description: String,
     blockchainHash: String,
-    fileHash: {
-        type: String,
-        required: true
-    },
-    blockchainTxHash: {
-        type: String,
-        required: true
-    }
+    blockchainTxHash: String
 }, {
     timestamps: true
 });

@@ -1,33 +1,30 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Container, CssBaseline } from '@mui/material';
-import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/layout/Navbar';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import PatientRegister from './components/patient/PatientRegister';
-import PatientProfile from './components/patient/PatientProfile';
-import RecordUpload from './components/records/RecordUpload';
-import RecordList from './components/records/RecordList';
+import EnhancedDashboard from './pages/EnhancedDashboard';
+import BillingDashboard from './pages/BillingDashboard';
+import AppointmentBooking from './pages/AppointmentBooking';
+import DiagnosticCenter from './pages/DiagnosticCenter';
+import HospitalPortal from './pages/HospitalPortal';
+import ConsentManagement from './pages/ConsentManagement';
 
-function App() {
+const App = () => {
     return (
-        <AuthProvider>
-            <Router>
-                <CssBaseline />
-                <Navbar />
-                <Container>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<PatientRegister />} />
-                        <Route path="/profile" element={<PatientProfile />} />
-                        <Route path="/records/upload" element={<RecordUpload />} />
-                        <Route path="/records/list" element={<RecordList />} />
-                    </Routes>
-                </Container>
-            </Router>
-        </AuthProvider>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<EnhancedDashboard />} />
+                <Route path="/billing" element={<BillingDashboard />} />
+                <Route path="/appointments" element={<AppointmentBooking />} />
+                <Route path="/diagnostics" element={<DiagnosticCenter />} />
+                <Route path="/hospital-portal" element={<HospitalPortal />} />
+                <Route path="/consent" element={<ConsentManagement />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </Router>
     );
-}
+};
 
 export default App;

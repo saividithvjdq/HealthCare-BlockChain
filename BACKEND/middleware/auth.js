@@ -1,21 +1,73 @@
-const verifyAadhaar = async (req, res, next) => {
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+const logger = require('../utils/logger');
+
+// Middleware to verify JWT token
+const verifyToken = async (req, res, next) => {
     try {
-        const aadhaarNumber = req.headers['aadhaar-number'];
+        const token = req.header('Authorization')?.replace('Bearer ', '');
         
-        if (!aadhaarNumber) {
-            return res.status(401).json({ message: 'Aadhaar number required' });
+        if (!token) {
+            logger.warn('Authentication attempt without token');
+            return res.status(401).json({ 
+                status: 'error',
+                message: 'Authentication required' 
+            });
         }
 
-        // Basic Aadhaar validation (12 digits)
-        if (!/^\d{12}$/.test(aadhaarNumber)) {
-            return res.status(401).json({ message: 'Invalid Aadhaar format' });
+        try {
+            const decoded = jwt.verify(token, config.jwtSecret);
+            req.user = decoded;
+            next();
+        } catch (error) {
+            logger.error('JWT verification failed:', error);
+            return res.status(401).json({ 
+                status: 'error',
+                message: 'Invalid or expired token' 
+            });
         }
-
-        req.aadhaarNumber = aadhaarNumber;
-        next();
     } catch (error) {
-        res.status(500).json({ message: 'Authentication failed' });
+        logger.error('Authentication middleware error:', error);
+        res.status(500).json({ 
+            status: 'error',
+            message: 'Internal server error' 
+        });
     }
 };
 
-module.exports = { verifyAadhaar };
+// Middleware to verify Aadhaar number
+const verifyAadhaar = (req, res, next) => {
+    try {
+        const { aadhaar } = req.body;
+        
+        if (!aadhaar) {
+            logger.warn('Aadhaar verification attempt without Aadhaar number');
+            return res.status(400).json({ 
+                status: 'error',
+                message: 'Aadhaar number is required' 
+            });
+        }
+
+        // Basic Aadhaar validation (12 digits)
+        if (!/^\d{12}$/.test(aadhaar)) {
+            logger.warn(`Invalid Aadhaar format attempt: ${aadhaar}`);
+            return res.status(400).json({ 
+                status: 'error',
+                message: 'Invalid Aadhaar format. Must be 12 digits' 
+            });
+        }
+
+        next();
+    } catch (error) {
+        logger.error('Aadhaar verification error:', error);
+        res.status(500).json({ 
+            status: 'error',
+            message: 'Internal server error' 
+        });
+    }
+};
+
+module.exports = {
+    verifyToken,
+    verifyAadhaar
+};

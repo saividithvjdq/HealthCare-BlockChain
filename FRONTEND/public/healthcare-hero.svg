@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Animated Background Gradient -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2196F3;stop-opacity:0.1">
+                <animate attributeName="stop-opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#64B5F6;stop-opacity:0.2">
+                <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite"/>
+            </stop>
+        </linearGradient>
+        
+        <!-- Pulse Effect -->
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Background Circle with Animation -->
+    <circle cx="400" cy="300" r="250" fill="url(#bgGradient)">
+        <animate attributeName="r" values="250;260;250" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Blockchain Network Background -->
+    <g opacity="0.2">
+        <path d="M100,100 Q400,50 700,100 T700,500 T100,500 T100,100" 
+              stroke="#2196F3" fill="none" stroke-width="2">
+            <animate attributeName="d" 
+                     dur="10s" 
+                     repeatCount="indefinite"
+                     values="M100,100 Q400,50 700,100 T700,500 T100,500 T100,100;
+                            M100,100 Q400,150 700,100 T700,500 T100,500 T100,100;
+                            M100,100 Q400,50 700,100 T700,500 T100,500 T100,100"/>
+        </path>
+    </g>
+
+    <!-- Central Medical Symbol -->
+    <g filter="url(#glow)">
+        <!-- Animated Cross -->
+        <path d="M380 150h40v120h120v40H420v120h-40V310H260v-40h120V150z" fill="#2196F3">
+            <animate attributeName="fill" values="#2196F3;#64B5F6;#2196F3" dur="3s" repeatCount="indefinite"/>
+        </path>
+    </g>
+
+    <!-- Blockchain Nodes with Pulse Effect -->
+    <g>
+        <circle cx="250" cy="200" r="15" fill="#1976D2">
+            <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="550" cy="200" r="15" fill="#1976D2">
+            <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle cx="250" cy="400" r="15" fill="#1976D2">
+            <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <circle cx="550" cy="400" r="15" fill="#1976D2">
+            <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+    </g>
+
+    <!-- Connecting Lines with Data Flow Animation -->
+    <g>
+        <path d="M270 200L530 200" stroke="#2196F3" stroke-width="2">
+            <animate attributeName="stroke-dasharray" values="0,150;150,0" dur="3s" repeatCount="indefinite"/>
+        </path>
+        <path d="M270 400L530 400" stroke="#2196F3" stroke-width="2">
+            <animate attributeName="stroke-dasharray" values="0,150;150,0" dur="3s" repeatCount="indefinite" begin="1s"/>
+        </path>
+        <path d="M250 220L250 380" stroke="#2196F3" stroke-width="2">
+            <animate attributeName="stroke-dasharray" values="0,150;150,0" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        </path>
+        <path d="M550 220L550 380" stroke="#2196F3" stroke-width="2">
+            <animate attributeName="stroke-dasharray" values="0,150;150,0" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </path>
+    </g>
+
+    <!-- Security Shield Overlay -->
+    <path d="M400,150 L500,200 L400,250 L300,200 Z" fill="#2196F3" opacity="0.1">
+        <animate attributeName="opacity" values="0.1;0.3;0.1" dur="2s" repeatCount="indefinite"/>
+    </path>
+</svg> 

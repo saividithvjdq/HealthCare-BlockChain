@@ -7,6 +7,7 @@ async function deployContract() {
     try {
         // Initialize Web3
         const web3 = new Web3(process.env.BLOCKCHAIN_NETWORK);
+
         
         // Get contract artifact
         const contractPath = path.join(__dirname, '../contracts/HealthRecords.sol');

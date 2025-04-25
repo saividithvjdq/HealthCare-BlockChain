@@ -1,0 +1,33 @@
+{
+    "verbose": true,
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules",
+      "logs/*",
+      "uploads/*",
+      "*.test.js",
+      "*.log",
+      "package-lock.json"
+    ],
+    "watch": [
+      "server.js",
+      "routes/",
+      "controllers/",
+      "models/",
+      "middleware/",
+      "utils/",
+      "config/"
+    ],
+    "ext": "js,json",
+    "delay": "1000",
+    "legacyWatch": true,
+    "execMap": {
+      "js": "node --unhandled-rejections=strict"
+    },
+    "events": {
+      "restart": "echo \"🔄 App restarted due to changes\"",
+      "crash": "echo \"❌ App crashed - waiting for changes before restart\""
+    },
+    "restartable": "rs"
+  }
+  
