@@ -1,33 +1,29 @@
 {
-    "verbose": true,
-    "ignore": [
-      ".git",
-      "node_modules/**/node_modules",
-      "logs/*",
-      "uploads/*",
-      "*.test.js",
-      "*.log",
-      "package-lock.json"
-    ],
-    "watch": [
-      "server.js",
-      "routes/",
-      "controllers/",
-      "models/",
-      "middleware/",
-      "utils/",
-      "config/"
-    ],
-    "ext": "js,json",
-    "delay": "1000",
-    "legacyWatch": true,
-    "execMap": {
-      "js": "node --unhandled-rejections=strict"
-    },
-    "events": {
-      "restart": "echo \"🔄 App restarted due to changes\"",
-      "crash": "echo \"❌ App crashed - waiting for changes before restart\""
-    },
-    "restartable": "rs"
+  "verbose": true,
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "uploads/*",
+    "logs/*"
+  ],
+  "watch": [
+    "server.js",
+    "routes/",
+    "models/",
+    "controllers/",
+    "middleware/",
+    "utils/"
+  ],
+  "ext": "js,json,env",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 2000,
+  "execMap": {
+    "js": "node"
+  },
+  "events": {
+    "restart": "kill-port 5000",
+    "crash": "kill-port 5000"
   }
-  
+}

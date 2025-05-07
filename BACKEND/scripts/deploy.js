@@ -1,58 +1,110 @@
-const Web3 = require('web3');
+const { Web3 } = require('web3');
 const fs = require('fs');
 const path = require('path');
+const solc = require('solc');
 require('dotenv').config();
 
-async function deployContract() {
+function findImports(importPath) {
     try {
-        // Initialize Web3
-        const web3 = new Web3(process.env.BLOCKCHAIN_NETWORK);
+        let fullPath;
+        if (importPath.startsWith('@openzeppelin/')) {
+            fullPath = path.resolve(__dirname, '..', 'node_modules', importPath);
+        } else {
+            fullPath = path.resolve(__dirname, '..', 'contracts', importPath);
+        }
+        
+        if (!fs.existsSync(fullPath)) {
+            return { error: `File not found: ${fullPath}` };
+        }
 
-        
-        // Get contract artifact
+        return {
+            contents: fs.readFileSync(fullPath, 'utf8')
+        };
+    } catch (error) {
+        return { error: `Error reading file: ${error.message}` };
+    }
+}
+
+const deployContract = async () => {
+    try {
+        // Connect to local Ethereum node
+        const web3 = new Web3('http://127.0.0.1:8545');
+
+        // Load and compile the contract
         const contractPath = path.join(__dirname, '../contracts/HealthRecords.sol');
-        const source = fs.readFileSync(contractPath, 'utf8');
-        
-        // Compile contract
-        const solc = require('solc');
+        const contractSource = fs.readFileSync(contractPath, 'utf8');
+
+        // Prepare compiler input
         const input = {
             language: 'Solidity',
             sources: {
                 'HealthRecords.sol': {
-                    content: source
+                    content: contractSource
                 }
             },
             settings: {
                 outputSelection: {
                     '*': {
-                        '*': ['*']
+                        '*': ['abi', 'evm.bytecode']
                     }
+                },
+                optimizer: {
+                    enabled: true,
+                    runs: 200
                 }
             }
         };
 
-        const output = JSON.parse(solc.compile(JSON.stringify(input)));
-        const contract = output.contracts['HealthRecords.sol']['HealthRecords'];
+        // Compile the contract with import callback
+        console.log('Compiling contract...');
+        const compiledContract = solc.compile(JSON.stringify(input), { import: findImports });
+        const output = JSON.parse(compiledContract);
 
-        // Deploy contract
-        const account = web3.eth.accounts.privateKeyToAccount(process.env.CONTRACT_OWNER_PRIVATE_KEY);
-        web3.eth.accounts.wallet.add(account);
+        // Check for compilation errors
+        if (output.errors) {
+            const errors = output.errors.filter(error => error.severity === 'error');
+            if (errors.length > 0) {
+                throw new Error(`Compilation errors: ${JSON.stringify(errors, null, 2)}`);
+            }
+        }
 
-        const Contract = new web3.eth.Contract(contract.abi);
+        // Get the contract data
+        const contractOutput = output.contracts['HealthRecords.sol'].HealthRecords;
+        const abi = contractOutput.abi;
+        const bytecode = contractOutput.evm.bytecode.object;
+
+        // Get account to deploy from
+        const accounts = await web3.eth.getAccounts();
+        const deployer = accounts[0];
+        console.log('Deploying from account:', deployer);
+
+        // Create contract instance
+        const Contract = new web3.eth.Contract(abi);
+        
+        // Deploy the contract
         const deploy = Contract.deploy({
-            data: contract.evm.bytecode.object
+            data: '0x' + bytecode,
+            arguments: []
         });
 
-        const gas = await deploy.estimateGas();
+        // Estimate gas
+        const gas = await deploy.estimateGas({ from: deployer });
+        console.log('Estimated gas:', gas);
+
+        // Convert gas to number and add 10% buffer
+        const gasLimit = Number(gas) + Math.floor(Number(gas) * 0.1);
+        console.log('Gas limit with buffer:', gasLimit);
+
+        // Send deployment transaction
         const deployed = await deploy.send({
-            from: account.address,
-            gas: gas
+            from: deployer,
+            gas: gasLimit
         });
 
         // Save contract address and ABI
         const contractConfig = {
             address: deployed.options.address,
-            abi: contract.abi
+            abi: abi
         };
 
         fs.writeFileSync(
@@ -68,4 +120,4 @@ async function deployContract() {
     }
 }
 
-module.exports=deployContract;
+module.exports = deployContract;

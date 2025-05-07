@@ -1,0 +1,95 @@
+{
+  "contractName": "DoctorVerification",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_licenseNumber",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_idPhotoHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_livePhotoHash",
+          "type": "string"
+        }
+      ],
+      "name": "verifyDoctor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_doctorLicense",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_patientAadhaar",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_reason",
+          "type": "string"
+        }
+      ],
+      "name": "requestAccess",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "licenseNumber",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "DoctorVerified",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "doctorLicense",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "patientAadhaar",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "AccessRequested",
+      "type": "event"
+    }
+  ]
+}

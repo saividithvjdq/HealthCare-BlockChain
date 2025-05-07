@@ -1,30 +1,50 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { AuthProvider } from './context/AuthContext';
+import theme from './theme';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import EnhancedDashboard from './pages/EnhancedDashboard';
+import EmergencyAccess from './pages/EmergencyAccess';
 import BillingDashboard from './pages/BillingDashboard';
-import AppointmentBooking from './pages/AppointmentBooking';
-import DiagnosticCenter from './pages/DiagnosticCenter';
-import HospitalPortal from './pages/HospitalPortal';
-import ConsentManagement from './pages/ConsentManagement';
+import PatientRecords from './pages/PatientRecords';
+import HospitalDashboard from './pages/HospitalDashboard';
+import DoctorVerification from './components/doctor/DoctorVerification';
+import AccessRecords from './pages/AccessRecords';
 
-const App = () => {
-    return (
+import './App.css';
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
         <Router>
-            <Routes>
+          <div className="app-container">
+            <Navbar />
+            <main className="main-content">
+              <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<EnhancedDashboard />} />
+                <Route path="/emergency-access" element={<EmergencyAccess />} />
                 <Route path="/billing" element={<BillingDashboard />} />
-                <Route path="/appointments" element={<AppointmentBooking />} />
-                <Route path="/diagnostics" element={<DiagnosticCenter />} />
-                <Route path="/hospital-portal" element={<HospitalPortal />} />
-                <Route path="/consent" element={<ConsentManagement />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+                <Route path="/records" element={<PatientRecords />} />
+                <Route path="/hospital-dashboard" element={<HospitalDashboard />} />
+                <Route path="/access-records" element={<AccessRecords />} />
+              </Routes>
+            </main>
+          </div>
         </Router>
-    );
-};
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
 
 export default App;
+

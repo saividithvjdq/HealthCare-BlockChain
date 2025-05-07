@@ -26,7 +26,9 @@ logger.info('Server Configuration:', {
 app.use(helmet()); // Set security HTTP headers
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(compression()); // Compress all routes
 
@@ -43,16 +45,19 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/', apiLimiter);
 app.use('/api/auth', authLimiter);
 
-// // Routes
+// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/patients', require('./routes/patientRoutes'));
 app.use('/api/records', require('./routes/records'));
-// app.use('/api/users', require('./routes/userRoutes'));
-// app.use('/api/aadhaar', require('./routes/aadhaarAuthRoutes'));
-// app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/aadhaar', require('./routes/aadhaarAuthRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/images', require('./routes/imageRoutes'));
+app.use('/api/doctors', require('./routes/doctorRoutes'));
 
-// // Serve static files
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 // Handle undefined routes
 app.all('*', (req, res, next) => {
@@ -65,28 +70,50 @@ app.all('*', (req, res, next) => {
 // Global error handling middleware
 app.use(errorHandler);
 
-// Start server
-const PORT = process.env.PORT || 5000;
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        success: false,
+        message: 'Something went wrong!',
+        error: err.message
+    });
+});
+
 let server;
+const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
     try {
         // Connect to MongoDB first
         await connectDB();
         
-        // Then start the server
-        server = app.listen(PORT, () => {
-            logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+        // Check if port is in use
+        await new Promise((resolve, reject) => {
+            const checkServer = require('net').createServer()
+            .once('error', err => {
+                if (err.code === 'EADDRINUSE') {
+                    logger.error(`Port ${PORT} is in use`);
+                    reject(new Error(`Port ${PORT} is in use`));
+                } else {
+                    reject(err);
+                }
+            })
+            .once('listening', () => {
+                checkServer.close();
+                resolve();
+            })
+            .listen(PORT);
         });
 
-        // Handle server errors
-        server.on('error', (error) => {
-            logger.error('Server error:', error);
-            if (error.code === 'EADDRINUSE') {
-                logger.error(`Port ${PORT} is already in use`);
-                process.exit(1);
-            }
+        // Then start the server
+        server = app.listen(PORT, () => {
+            logger.info(`✅ Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
         });
+
+        // Graceful shutdown handlers
+        process.on('SIGTERM', gracefulShutdown);
+        process.on('SIGINT', gracefulShutdown);
 
     } catch (error) {
         logger.error('Failed to start server:', error);
@@ -94,27 +121,41 @@ const startServer = async () => {
     }
 };
 
-startServer();
+const gracefulShutdown = async () => {
+    try {
+        logger.info('🔄 Received shutdown signal. Starting graceful shutdown...');
+        
+        if (server) {
+            await new Promise((resolve) => {
+                server.close(resolve);
+            });
+            logger.info('✅ HTTP server closed');
+        }
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-    logger.error('UNHANDLED REJECTION! 💥 Shutting down...');
-    logger.error(err.name, err.message);
-    if (server) {
-        server.close(() => {
-            process.exit(1);
-        });
-    } else {
+        if (mongoose.connection.readyState === 1) {
+            await mongoose.connection.close();
+            logger.info('✅ MongoDB connection closed');
+        }
+
+        process.exit(0);
+    } catch (error) {
+        logger.error('❌ Error during shutdown:', error);
         process.exit(1);
     }
+};
+
+// Remove previous process.on handlers and use this:
+process.on('uncaughtException', (err) => {
+    logger.error('❌ UNCAUGHT EXCEPTION:', err);
+    gracefulShutdown();
 });
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-    logger.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-    logger.error(err.name, err.message);
-    process.exit(1);
+process.on('unhandledRejection', (err) => {
+    logger.error('❌ UNHANDLED REJECTION:', err);
+    gracefulShutdown();
 });
+
+startServer();
 
 
 

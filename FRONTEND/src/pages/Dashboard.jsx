@@ -478,8 +478,8 @@ const Dashboard = () => {
                 }}
               >
                 Healthcare Dashboard
-              </Typography>
-            </Box>
+                      </Typography>
+                    </Box>
             
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Tooltip title="Search">
@@ -494,7 +494,7 @@ const Dashboard = () => {
                   </Badge>
                 </IconButton>
               </Tooltip>
-              <Button
+                    <Button
                 variant="outlined"
                 sx={{ ml: 2, borderRadius: 20, px: 2 }}
                 color="primary"
@@ -502,7 +502,7 @@ const Dashboard = () => {
                 onClick={handleUserMenuOpen}
               >
                 John Doe
-              </Button>
+                    </Button>
               <Menu
                 anchorEl={userMenuAnchor}
                 open={Boolean(userMenuAnchor)}
@@ -532,7 +532,7 @@ const Dashboard = () => {
                   Logout
                 </MenuItem>
               </Menu>
-            </Box>
+                  </Box>
           </Toolbar>
         </StyledAppBar>
 
@@ -560,41 +560,41 @@ const Dashboard = () => {
             <Toolbar sx={{ justifyContent: 'flex-end' }}>
               <IconButton onClick={handleDrawerToggle} sx={{ color: 'white' }}>
                 <CloseIcon />
-              </IconButton>
+                  </IconButton>
             </Toolbar>
             {drawer}
           </StyledDrawer>
-        </Box>
+                </Box>
 
         {/* Main Content */}
         <ContentContainer>
           <Box sx={{ p: 3 }}>
             <Typography variant="h4" gutterBottom>
               Healthcare Blockchain Dashboard
-            </Typography>
+                  </Typography>
             
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
+            <Card>
+              <CardContent>
                     <Typography variant="h6" gutterBottom>
                       Welcome to HealthChain
                     </Typography>
                     <Typography variant="body1" paragraph>
                       Your health records on blockchain
-                    </Typography>
-                    <Button 
+                  </Typography>
+                  <Button
                       variant="contained" 
                       color="primary"
                       onClick={() => console.log('Connect wallet')}
                     >
                       Connect Wallet
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </Box>
+                            </Button>
+              </CardContent>
+            </Card>
+        </Grid>
+      </Grid>
+    </Box>
         </ContentContainer>
       </Box>
     </ThemeProvider>

@@ -98,8 +98,10 @@ otpSchema.statics.generateOTP = async function(aadhaarNumber) {
             { upsert: true, new: true }
         );
 
-        // In production, you would send this OTP via SMS
-        console.log(`OTP for ${aadhaarNumber}: ${otp}`);
+        // Make the OTP logging more visible
+        console.log('\n=================================');
+        console.log(`🔐 OTP for ${aadhaarNumber}: ${otp}`);
+        console.log('=================================\n');
         
         return otp;
     } catch (error) {
@@ -108,4 +110,4 @@ otpSchema.statics.generateOTP = async function(aadhaarNumber) {
     }
 };
 
-module.exports = mongoose.model('OTP', otpSchema); 
+module.exports = mongoose.model('OTP', otpSchema);

@@ -1,8 +1,18 @@
 // Mock implementation for development
 const logger = require('../utils/logger');
+const { ethers } = require('ethers');
+const doctorVerificationABI = require('../contracts/DoctorVerification.json');
 
 // In-memory store for development/testing
 const records = [];
+
+const provider = new ethers.providers.JsonRpcProvider(process.env.BLOCKCHAIN_NETWORK);
+const wallet = new ethers.Wallet(process.env.CONTRACT_OWNER_PRIVATE_KEY, provider);
+const contract = new ethers.Contract(
+  process.env.CONTRACT_ADDRESS,
+  doctorVerificationABI.abi,
+  wallet
+);
 
 class MockBlockchainService {
     constructor() {
@@ -54,3 +64,27 @@ exports.createBlockchainRecord = async (recordData) => {
 exports.getBlockchainRecords = async (aadhaarNumber) => {
     return service.getBlockchainRecords(aadhaarNumber);
 };
+
+const verifyDoctor = async (licenseNumber, idPhotoHash, livePhotoHash) => {
+  try {
+    const tx = await contract.verifyDoctor(licenseNumber, idPhotoHash, livePhotoHash);
+    await tx.wait();
+    return tx.hash;
+  } catch (error) {
+    console.error('Blockchain verification error:', error);
+    throw new Error('Failed to verify doctor on blockchain');
+  }
+};
+
+const recordAccess = async (doctorLicense, patientAadhaar, reason) => {
+  try {
+    const tx = await contract.recordAccess(doctorLicense, patientAadhaar, reason);
+    await tx.wait();
+    return tx.hash;
+  } catch (error) {
+    console.error('Record access error:', error);
+    throw new Error('Failed to record access on blockchain');
+  }
+};
+
+module.exports = { verifyDoctor, recordAccess };
