@@ -7,7 +7,7 @@ import {
     Alert,
     CircularProgress 
 } from '@mui/material';
-import { recordService } from '../../services/api';
+import recordService from '../../services/recordService';
 
 export default function RecordUpload() {
     const [file, setFile] = useState(null);
@@ -16,6 +16,8 @@ export default function RecordUpload() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [ipfsHash, setIpfsHash] = useState('');
+    const [metadata, setMetadata] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,8 +31,14 @@ export default function RecordUpload() {
         formData.append('description', description);
 
         try {
-            await recordService.upload(formData);
+            const response = await recordService.uploadRecord(formData);
             setSuccess(true);
+            setIpfsHash(response.data.ipfsHash);
+            setMetadata(response.data.metadata);
+
+            // Log the IPFS hash to the console
+            console.log('IPFS Hash:', response.data.ipfsHash);
+
             setFile(null);
             setRecordType('');
             setDescription('');
@@ -48,7 +56,11 @@ export default function RecordUpload() {
             </Typography>
 
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-            {success && <Alert severity="success" sx={{ mb: 2 }}>Record uploaded successfully!</Alert>}
+            {success && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                    Record uploaded successfully! IPFS Hash: {ipfsHash}
+                </Alert>
+            )}
 
             <input
                 accept=".pdf,.jpg,.jpeg,.png"
@@ -91,6 +103,16 @@ export default function RecordUpload() {
             >
                 {loading ? <CircularProgress size={24} /> : 'Upload Record'}
             </Button>
+
+            {metadata && (
+                <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6">Metadata</Typography>
+                    <Typography>File Name: {metadata.fileName}</Typography>
+                    <Typography>File Type: {metadata.fileType}</Typography>
+                    <Typography>File Size: {metadata.fileSize}</Typography>
+                    <Typography>User: {metadata.user?.name || 'N/A'}</Typography>
+                </Box>
+            )}
         </Box>
     );
 }

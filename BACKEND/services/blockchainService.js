@@ -3,9 +3,6 @@ const logger = require('../utils/logger');
 const { ethers } = require('ethers');
 const doctorVerificationABI = require('../contracts/DoctorVerification.json');
 
-// In-memory store for development/testing
-const records = [];
-
 const provider = new ethers.providers.JsonRpcProvider(process.env.BLOCKCHAIN_NETWORK);
 const wallet = new ethers.Wallet(process.env.CONTRACT_OWNER_PRIVATE_KEY, provider);
 const contract = new ethers.Contract(

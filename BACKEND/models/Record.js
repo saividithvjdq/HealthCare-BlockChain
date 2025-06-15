@@ -1,34 +1,12 @@
 const mongoose = require('mongoose');
 
 const recordSchema = new mongoose.Schema({
-  patientAadhaar: {
-    type: String,
-    required: true,
-    index: true
-  },
-  recordType: {
-    type: String,
-    required: true
-  },
-  description: String,
-  fileData: {
-    type: Buffer,
-    required: true
-  },
-  fileName: String,
-  fileType: String,
-  accessHistory: [{
-    doctorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Doctor'
-    },
-    accessedAt: {
-      type: Date,
-      default: Date.now
-    },
-    reason: String
-  }],
-  blockchainTxHash: String
-}, { timestamps: true });
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    fileName: { type: String, required: true },
+    fileType: { type: String, required: true },
+    fileSize: { type: Number, required: true },
+    ipfsHash: { type: String, required: true },
+    uploadedAt: { type: Date, default: Date.now },
+});
 
 module.exports = mongoose.model('Record', recordSchema);

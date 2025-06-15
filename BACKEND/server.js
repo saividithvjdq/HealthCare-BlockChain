@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -7,19 +6,21 @@ const compression = require('compression');
 const path = require('path');
 require('dotenv').config();
 
+const connectDB = require('./config/db'); // Import MongoDB connection
 const logger = require('./utils/logger');
 const { apiLimiter, authLimiter } = require('./middleware/rateLimit');
 const errorHandler = require('./middleware/errorHandler');
-const connectDB = require('./config/db');
 
 const app = express();
+
+// Connect to MongoDB
+connectDB();
 
 // Log server configuration
 logger.info('Server Configuration:', {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT || 5000,
-    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare_blockchain',
-    JWT_EXPIRATION: process.env.JWT_EXPIRES_IN || '24h'
+    JWT_EXPIRATION: process.env.JWT_EXPIRES_IN || '24h',
 });
 
 // Security Middleware
@@ -47,13 +48,13 @@ app.use('/api/auth', authLimiter);
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/patients', require('./routes/patientRoutes'));
-app.use('/api/records', require('./routes/records'));
-app.use('/api/users', require('./routes/userRoutes'));
+// app.use('/api/patients', require('./routes/patientRoutes'));
+// app.use('/api/records', require('./routes/records'));
+// app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/aadhaar', require('./routes/aadhaarAuthRoutes'));
-app.use('/api/admin', require('./routes/adminRoutes'));
+// app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/images', require('./routes/imageRoutes'));
-app.use('/api/doctors', require('./routes/doctorRoutes'));
+// app.use('/api/doctors', require('./routes/doctorRoutes'));
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -85,9 +86,6 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
     try {
-        // Connect to MongoDB first
-        await connectDB();
-        
         // Check if port is in use
         await new Promise((resolve, reject) => {
             const checkServer = require('net').createServer()
@@ -106,7 +104,7 @@ const startServer = async () => {
             .listen(PORT);
         });
 
-        // Then start the server
+        // Start the server
         server = app.listen(PORT, () => {
             logger.info(`✅ Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
         });
@@ -130,11 +128,6 @@ const gracefulShutdown = async () => {
                 server.close(resolve);
             });
             logger.info('✅ HTTP server closed');
-        }
-
-        if (mongoose.connection.readyState === 1) {
-            await mongoose.connection.close();
-            logger.info('✅ MongoDB connection closed');
         }
 
         process.exit(0);

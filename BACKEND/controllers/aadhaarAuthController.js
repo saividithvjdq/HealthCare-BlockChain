@@ -1,36 +1,28 @@
-const AadhaarUser = require('../models/AadhaarUser');
-const OTP = require('../models/OTP');
+// const AadhaarUser = require('../models/AadhaarUser');
 const jwt = require('jsonwebtoken');
 const config = require('../config/keys');
 const logger = require('../utils/logger');
+
+const otpStore = new Map(); // In-memory OTP storage
 
 // Generate and send OTP
 exports.generateOTP = async (req, res) => {
     try {
         const { aadhaarNumber } = req.body;
 
-        // Validate Aadhaar number
-        if (!/^\d{12}$/.test(aadhaarNumber)) {
-            return res.status(400).json({ message: 'Invalid Aadhaar number format' });
-        }
-
-        // Check if user exists
-        const user = await AadhaarUser.findOne({ aadhaarNumber });
-        if (!user) {
-            return res.status(404).json({ message: 'Aadhaar number not registered' });
+        if (aadhaarNumber !== '123456789012') {
+            return res.status(400).json({ message: 'Invalid Aadhaar number' });
         }
 
         // Generate OTP
-        const otp = await OTP.generateOTP(aadhaarNumber);
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        otpStore.set(aadhaarNumber, { otp, createdAt: Date.now() });
 
-        // In a real application, you would send this OTP to the user's registered phone number
-        // For testing purposes, we'll return it in the response
-        res.json({ 
-            message: 'OTP generated successfully',
-            otp: otp // Remove this in production
-        });
+        console.log(`Generated OTP for Aadhaar ${aadhaarNumber}: ${otp}`); // Log OTP to console
+
+        res.json({ message: 'OTP generated successfully' });
     } catch (error) {
-        logger.error('Error generating OTP:', error);
+        console.error('Error generating OTP:', error);
         res.status(500).json({ message: 'Server error during OTP generation' });
     }
 };
@@ -40,43 +32,24 @@ exports.verifyOTP = async (req, res) => {
     try {
         const { aadhaarNumber, otp } = req.body;
 
-        // Verify OTP
-        const verification = await OTP.verifyOTP(aadhaarNumber, otp);
-        if (!verification.isValid) {
-            return res.status(400).json({ message: verification.message });
+        const storedOtp = otpStore.get(aadhaarNumber);
+        if (!storedOtp) {
+            return res.status(400).json({ message: 'OTP not found or expired' });
         }
 
-        // Get user details
-        const user = await AadhaarUser.findOne({ aadhaarNumber });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+        if (Date.now() - storedOtp.createdAt > 5 * 60 * 1000) {
+            otpStore.delete(aadhaarNumber);
+            return res.status(400).json({ message: 'OTP expired' });
         }
 
-        // Create JWT token
-        const payload = {
-            user: {
-                id: user.id,
-                aadhaarNumber: user.aadhaarNumber
-            }
-        };
+        if (storedOtp.otp !== otp) {
+            return res.status(400).json({ message: 'Invalid OTP' });
+        }
 
-        jwt.sign(
-            payload,
-            config.JWT_SECRET,
-            { expiresIn: '24h' },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ 
-                    token,
-                    user: {
-                        name: user.name,
-                        aadhaarNumber: user.aadhaarNumber
-                    }
-                });
-            }
-        );
+        otpStore.delete(aadhaarNumber); // Remove OTP after successful verification
+        res.json({ message: 'OTP verified successfully' });
     } catch (error) {
-        logger.error('Error verifying OTP:', error);
+        console.error('Error verifying OTP:', error);
         res.status(500).json({ message: 'Server error during OTP verification' });
     }
 };
@@ -109,4 +82,4 @@ exports.registerAadhaarUser = async (req, res) => {
         logger.error('Error registering Aadhaar user:', error);
         res.status(500).json({ message: 'Server error during registration' });
     }
-}; 
+};

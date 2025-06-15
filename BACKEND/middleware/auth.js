@@ -36,34 +36,21 @@ const verifyToken = async (req, res, next) => {
 };
 
 // Middleware to verify Aadhaar number
-const verifyAadhaar = (req, res, next) => {
+module.exports.verifyAadhaar = (req, res, next) => {
     try {
-        const { aadhaar } = req.body;
-        
-        if (!aadhaar) {
-            logger.warn('Aadhaar verification attempt without Aadhaar number');
-            return res.status(400).json({ 
-                status: 'error',
-                message: 'Aadhaar number is required' 
-            });
+        const aadhaarNumber = req.headers['aadhaar-number'];
+
+        // Validate Aadhaar number
+        if (!aadhaarNumber || aadhaarNumber !== '123456789012') {
+            return res.status(401).json({ message: 'Invalid or missing Aadhaar number' });
         }
 
-        // Basic Aadhaar validation (12 digits)
-        if (!/^\d{12}$/.test(aadhaar)) {
-            logger.warn(`Invalid Aadhaar format attempt: ${aadhaar}`);
-            return res.status(400).json({ 
-                status: 'error',
-                message: 'Invalid Aadhaar format. Must be 12 digits' 
-            });
-        }
-
+        // Attach Aadhaar number to the request object
+        req.aadhaarNumber = aadhaarNumber;
         next();
     } catch (error) {
-        logger.error('Aadhaar verification error:', error);
-        res.status(500).json({ 
-            status: 'error',
-            message: 'Internal server error' 
-        });
+        console.error('Error in verifyAadhaar middleware:', error);
+        res.status(500).json({ message: 'Authentication error' });
     }
 };
 

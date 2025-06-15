@@ -1,0 +1,219 @@
+**1. CLASS DIAGRAM**
+
+**Definition:**
+A class diagram is a static UML diagram that describes the structure of a system by showing its classes, attributes, methods (operations), and the relationships among objects. It is the foundation of object-oriented modeling.
+
+**What it Contains:**
+- **Class**: Represented as a rectangle with three compartments: class name, attributes, and methods.
+- **Attributes**: Variables or properties of the class.
+- **Methods (Operations)**: Functions that define the behavior of the class.
+- **Packages**: Logical groupings of related classes.
+
+**Relationships:**
+- **Association**: A line connecting two classes, showing how they are linked.
+  - *Example:* A `Student` is associated with a `Course`.
+- **Multiplicity**: Numbers like 1..*, 0..1 on association lines.
+  - *Example:* One `Teacher` can teach multiple `Courses`.
+- **Inheritance (Generalization)**: Hollow triangle pointing to the superclass.
+  - *Example:* `Admin` inherits from `User`.
+- **Aggregation**: Hollow diamond shows a weak "has-a" relationship.
+  - *Example:* `Library` has many `Books`.
+- **Composition**: Filled diamond shows strong ownership.
+  - *Example:* `House` has `Rooms` that cannot exist independently.
+- **Dependency**: Dashed arrow line indicates temporary reliance.
+  - *Example:* `Login` module depends on `OTP` service.
+
+---
+
+**2. OBJECT DIAGRAM**
+
+**Definition:**
+An object diagram is a snapshot of the system at a particular moment in time, showing instances of classes (objects), their attributes, and relationships.
+
+**What it Contains:**
+- **Objects**: Instances of classes with actual attribute values.
+- **Attributes**: Specific values assigned to objects.
+- **Links**: Represent associations between objects.
+
+**Relationships:**
+- **Association**: Shows how specific objects are connected.
+  - *Example:* `:Student` enrolled in `:Course`.
+- **Aggregation/Composition**: Same as in class diagram but at the object level.
+- **Multiplicity**: Applies to how many objects are involved in the relationship.
+- **Inheritance**: Not usually shown directly but implied through object types.
+
+---
+
+**3. USE CASE DIAGRAM**
+
+**Definition:**
+A use case diagram shows the interaction between the users (actors) and the system to achieve specific goals (use cases). It captures functional requirements.
+
+**What it Contains:**
+- **Actors**: External users or systems.
+- **Use Cases**: Ovals that represent system functions.
+- **System Boundary**: Box enclosing use cases.
+
+**Relationships:**
+- **Association**: Line between actor and use case.
+  - *Example:* `Student` registers for exam.
+- **Include**: Use case uses another common use case.
+  - *Example:* `Pay Fee` includes `Validate Payment`.
+- **Extend**: Optional behavior extending base use case.
+  - *Example:* `Register Course` may extend `Show Prerequisites`.
+- **Generalization**: Actors or use cases may inherit behavior.
+  - *Example:* `Admin` inherits from `User`.
+
+---
+
+**4. COMPONENT DIAGRAM**
+
+**Definition:**
+A component diagram shows the organization and dependencies among software components. It models the high-level parts of a system and their interactions.
+
+**What it Contains:**
+- **Components**: Encapsulated functionality like modules or subsystems.
+- **Interfaces**: Points of interaction between components.
+- **Ports**: Connection points on components.
+
+**Relationships:**
+- **Dependency**: Dashed arrow shows that one component depends on another.
+  - *Example:* `UserInterface` depends on `AuthenticationService`.
+- **Association**: Less common but used for structural linking.
+- **Realization**: One component realizes an interface.
+  - *Example:* `PaymentComponent` realizes `IPayment` interface.
+
+---
+
+**5. DEPLOYMENT DIAGRAM**
+
+**Definition:**
+A deployment diagram shows the physical deployment of artifacts (software) on nodes (hardware). It models the system's hardware configuration and software components.
+
+**What it Contains:**
+- **Nodes**: Physical devices or execution environments.
+- **Artifacts**: Executables or data deployed on nodes.
+- **Communication Paths**: Arrows showing interactions between nodes.
+
+**Relationships:**
+- **Association**: Between nodes and components.
+- **Deployment**: Dashed line showing component assigned to node.
+  - *Example:* `CourseApp.jar` deployed on `WebServer`.
+- **Communication Path**: Solid line showing network connection.
+  - *Example:* `ClientDevice` connected to `ServerNode`.
+
+---
+
+**6. ACTIVITY DIAGRAM**
+
+**Definition:**
+An activity diagram models the workflow or the sequence of activities in a process. It is useful for visualizing business logic and control flow.
+ 
+**What it Contains:**
+- **Initial Node**: Start of the activity.
+- **Activities**: Rounded rectangles representing actions.
+- **Decisions**: Diamonds for branching.
+- **Merge, Fork, Join Nodes**: For combining or splitting flows.
+- **Final Node**: End of activity.
+
+**Relationships:**
+- **Control Flow**: Arrows indicating order of execution.
+  - *Example:* `Login` → `Select Course` → `Pay Fee`.
+- **Object Flow**: Shows movement of data.
+- **Swimlanes**: Divide responsibilities among actors or classes.
+- **Guards**: Conditions for flow (e.g., [SeatsAvailable]?).
+
+---
+
+**7. SEQUENCE DIAGRAM**
+
+**Definition:**
+A sequence diagram shows how objects interact in a particular scenario of a use case, focusing on the sequence of messages exchanged.
+
+**What it Contains:**
+- **Objects/Actors**: Shown at the top as lifelines.
+- **Lifelines**: Vertical dashed lines.
+- **Messages**: Horizontal arrows showing interactions.
+- **Activation Bars**: Show when an object is active.
+
+**Relationships:**
+- **Message**: Arrow showing method calls or signals.
+  - *Example:* `User` → `AuthService`: login(username, pwd)
+- **Return Message**: Dotted line showing return values.
+- **Self-Message**: An object calling its own method.
+- **Create/Destroy**: Messages that create or destroy objects.
+
+
+A State Machine Diagram is a behavioral UML diagram used to model the dynamic behavior of a single object by showing its states, transitions, events, and actions from the start of its lifecycle to the end.
+
+✅ What It Contains:
+States: Represent the condition of an object at a particular time.
+
+Initial State: Solid black circle indicating where the lifecycle begins.
+
+Final State: Bullseye symbol representing the end of the object's life.
+
+Transitions: Arrows showing movement from one state to another.
+
+Events: Triggers that cause a transition.
+
+Actions: Activities that occur during transitions or in states.
+
+✅ Relationships in State Machine Diagram:
+Transition: Represents the change from one state to another when a specific event occurs.
+
+Example: From “Applied” to “Under Review” on event “Screen Application”.
+
+State Entry/Exit Actions: Define what happens when an object enters or exits a state.
+
+Example: On entering “Interview Scheduled”, send interview invite.
+
+Guard Conditions: Boolean expressions that must be true for a transition to occur.
+
+Example: Transition only occurs if [Experience >= 3 years].
+
+8. STATE CHART DIAGRAM
+Definition:
+A State Chart Diagram (also called State Machine Diagram) models the dynamic behavior of a single object based on its different states and transitions triggered by events. It’s useful to model reactive systems where objects change behavior in response to events.
+
+✅ What it Contains:
+
+States: Represent a specific condition or situation in the life of an object.
+
+Example: Idle, Processing, Completed
+
+Initial State: Filled black circle indicating the starting point.
+
+Final State: Bullseye symbol showing the end of the object’s life or process.
+
+Transitions: Arrows between states triggered by events.
+
+Events: External or internal triggers causing state changes.
+
+Actions: Activity performed when transitioning or within a state.
+
+Entry/Exit Actions: Special actions executed on entering or exiting a state.
+
+Guards: Conditions (in square brackets) that must be true for a transition to occur.
+
+✅ Relationships and Notations:
+
+Transition: State1 → State2 : Event [Guard] / Action
+
+Example: Applied → UnderReview : screenApplication [ValidForm] / notifyHR
+
+Self-loop: A transition from a state to itself.
+
+Composite States: A state containing nested substates.
+
+Fork/Join: Used to model concurrent state transitions.
+
+History State (H): Recalls the last active substate within a composite state.
+
+✅ Example Scenario: Job Application Process
+
+
+
+Initial → Applied → Under Review → Interview Scheduled → Offered → Final
+                           ↑                    ↓
+                         Rejected         [Experience < 3] → Rejected

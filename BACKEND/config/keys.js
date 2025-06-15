@@ -19,19 +19,14 @@ const config = {
     PORT: process.env.PORT || 5000,
     JWT_SECRET: process.env.JWT_SECRET || generateJWTSecret(),
     JWT_EXPIRATION: process.env.JWT_EXPIRATION || '24h',
-    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare_blockchain',
+    // MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare_blockchain',
     ENCRYPTION_KEY: process.env.ENCRYPTION_KEY || generateEncryptionKey(),
     // You can add more security configurations here
 };
 
 // Log configuration during development (remove in production)
 if (config.NODE_ENV === 'development') {
-    console.log('Server Configuration:', {
-        NODE_ENV: config.NODE_ENV,
-        PORT: config.PORT,
-        MONGODB_URI: config.MONGODB_URI,
-        JWT_EXPIRATION: config.JWT_EXPIRATION
-    });
+    console.log('Loaded configuration:', config);
 }
 
-module.exports = config; 
+module.exports = config;
